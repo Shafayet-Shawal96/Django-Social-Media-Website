@@ -1,0 +1,48 @@
+* add new app into INSTALLED_APP
+* create TEMPLATES_DIR, STATIC_DIR, MEDIA_DIR
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+*
+add TEMPLATES_DIR into TEMPLATES
+
+* 
+STATIC_URL = '/static/'
+STATICFILES_DIR = [STATIC_DIR,]
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
+
+*
+TIME_ZONE = 'Asia/Dhaka'
+
+*
+add into project/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+*
+if install django_crispy_forms then add in settings 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
