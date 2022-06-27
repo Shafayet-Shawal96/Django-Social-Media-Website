@@ -19,7 +19,7 @@
 <center>
   <div class="sign_up">
     <h3>Sign Up to see photos of your friends</h3>
-    <form action="POST">
+    <form method="POST">
       {{ form|crispy }} 
       {% csrf_token %}
       <button
