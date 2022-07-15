@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, HttpResponseRedirect
 from App_Login.forms import CreateNewUser, EditProfile
 from django.contrib.auth import authenticate, login, logout
@@ -5,6 +6,8 @@ from django.urls import reverse, reverse_lazy
 from App_Login.models import UserProfile
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from App_Posts.forms import PostForm
+
 # Create your views here.
 def sign_up(request):
     form = CreateNewUser()
@@ -54,4 +57,12 @@ def logout_user(request):
 
 @login_required
 def user_profile(request):
-    return render(request, 'App_Login/user_profile.html', context={'title': 'User Profile'})
+    form = PostForm()
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return HttpResponseRedirect(reverse('App_Posts:home'))
+    return render(request, 'App_Login/user_profile.html', context={'title': 'User Profile', 'form':form})
